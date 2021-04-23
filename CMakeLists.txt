@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(TestVisualizer)
+project(open3d_cpp_python)
 
 find_package(Open3D)
 
@@ -13,5 +13,5 @@ set(CMAKE_CXX_FLAGS_RELEASE "-g0 -O3")
 
 link_directories(${Open3D_LIBRARY_DIRS})
 include_directories(${Open3D_INCLUDE_DIRS})
-add_executable(TestVisualizer TestVisualizer.cpp)
-target_link_libraries(TestVisualizer ${Open3D_LIBRARIES})
+add_executable(PlaneSegmentation PlaneSegmentation.cpp)
+target_link_libraries(PlaneSegmentation ${Open3D_LIBRARIES})
