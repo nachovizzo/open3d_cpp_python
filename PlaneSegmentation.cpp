@@ -9,10 +9,8 @@ using namespace open3d;
 std::shared_ptr<geometry::PointCloud> ReadPointCloud(
     const std::string& filename) {
     auto cloud_ptr = std::make_shared<geometry::PointCloud>();
-    if (io::ReadPointCloud(filename, *cloud_ptr)) {
-        utility::LogInfo("Successfully read {}\n", filename);
-    } else {
-        utility::LogError("Failed to read {}\n\n", filename);
+    if (!io::ReadPointCloud(filename, *cloud_ptr)) {
+        utility::LogError("Failed to read {}", filename);
     }
     return cloud_ptr;
 }
