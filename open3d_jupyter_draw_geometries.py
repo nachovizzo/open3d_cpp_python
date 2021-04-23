@@ -10,7 +10,7 @@ import open3d as o3d
 def jupyter_draw_geometries(
     geoms,
     # Window Options
-    window_name="Open3D",
+    window_name="PlaneSegmentation Python",
     width=1920,
     height=1080,
     left=50,
