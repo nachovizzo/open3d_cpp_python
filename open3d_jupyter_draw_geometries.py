@@ -7,7 +7,7 @@ import numpy as np
 import open3d as o3d
 
 
-def jupyter_draw_geometries(
+def custom_draw_geometries(
     geoms,
     # Window Options
     window_name="PlaneSegmentation Python",
@@ -15,20 +15,13 @@ def jupyter_draw_geometries(
     height=1080,
     left=50,
     top=50,
-    # Render Options
-    point_size=1,
-    point_show_color_normal=False,
-    mesh_show_wireframe=False,
-    mesh_show_back_face=False,
-    background_color=[1.0, 1.0, 1.0],
-    show_coordinate_frame=False,
     # Camera Viewpoint Parameters
-    front=None,
     lookat=None,
     up=None,
+    front=None,
     zoom=None,
-    # Filename
-    filename=None,
+    # Render Options
+    point_size=1,
 ):
     # Create a new Window
     vis = o3d.visualization.Visualizer()
@@ -41,19 +34,13 @@ def jupyter_draw_geometries(
         visible=True,
     )
 
-    # Change the render options
-    render_options = vis.get_render_option()
-    render_options.point_size = point_size
-    if point_show_color_normal:
-        render_options.point_color_option = o3d.visualization.PointColorOption.Normal
-    render_options.mesh_show_wireframe = mesh_show_wireframe
-    render_options.mesh_show_back_face = mesh_show_back_face
-    render_options.background_color = np.asarray(background_color)
-    render_options.show_coordinate_frame = show_coordinate_frame
-
     # Add the provided geometries to the canvas
     for geom in geoms:
         vis.add_geometry(geom)
+
+    # Change the render options
+    render_options = vis.get_render_option()
+    render_options.point_size = point_size
 
     # Change the viewpoint of the camera
     view_control = vis.get_view_control()
@@ -68,9 +55,6 @@ def jupyter_draw_geometries(
     vis.destroy_window()
     im = PIL.Image.fromarray((255 * np.asarray(im)).astype(np.uint8), "RGB")
     IPython.display.display(im)
-    if filename:
-        im.save(filename)
-        print("Render saved to", filename)
 
 
-o3d.visualization.draw_geometries = jupyter_draw_geometries
+o3d.visualization.draw_geometries = custom_draw_geometries
