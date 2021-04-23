@@ -1,4 +1,4 @@
-000000.ply
+*.ply
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,cmake,c++,vscode
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,cmake,c++,vscode
