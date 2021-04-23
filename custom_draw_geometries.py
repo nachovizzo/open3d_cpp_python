@@ -2,9 +2,9 @@
 # https://github.com/intel-isl/Open3D/blob/master/examples/python/open3d_tutorial.py
 
 import IPython.display
-import PIL.Image
 import numpy as np
 import open3d as o3d
+import PIL.Image
 
 
 def custom_draw_geometries(
