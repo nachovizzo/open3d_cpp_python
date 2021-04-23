@@ -1,4 +1,5 @@
 #include <open3d/Open3D.h>
+#include <open3d/utility/Timer.h>
 #include <open3d/visualization/utility/DrawGeometry.h>
 
 #include <Eigen/Core>
@@ -33,9 +34,9 @@ bool DrawGeometries(
                                               point_show_normal,
                                               mesh_show_wireframe,
                                               mesh_show_back_face,
+                                              &front,
                                               &lookat,
                                               &up,
-                                              &front,
                                               &zoom);
 }
 
@@ -49,22 +50,45 @@ std::shared_ptr<o3d::geometry::PointCloud> ReadPointCloud(
 }
 
 int main(int argc, char *argv[]) {
-    o3d::utility::SetVerbosityLevel(utility::VerbosityLevel::Debug);
+    o3d::utility::SetVerbosityLevel(o3d::utility::VerbosityLevel::Debug);
     if (argc < 2) {
         o3d::utility::LogInfo("Open3D: {}", OPEN3D_VERSION);
         o3d::utility::LogInfo("Usage:");
-        o3d::utility::LogInfo("{} [filename]", argv[0]);
+        o3d::utility::LogInfo("{} [filename] [segmentation_params]", argv[0]);
         return 0;
     }
 
     // Read the point cloud
     auto pcd = ReadPointCloud(argv[1]);
 
+    // Obtain the arguments from the Python
+    const double distance_threshold = std::stod(argv[2]);
+    const int ransac_n = std::stoi(argv[3]);
+    const int num_iterations = std::stoi(argv[4]);
+
     // Initial inspection of the data
-    o3d::utility::LogInfo("KITTI Sequence 07 scan:");
+    o3d::utility::LogInfo("Visualizing KITTI Sequence 07 scan");
     DrawGeometries({pcd});
 
-    // PlaneSegmentation
+    // PlaneSegmentation ---- < copy from this line for your application
+    auto [plane_model, plane_points] =
+        pcd->SegmentPlane(distance_threshold, ransac_n, num_iterations);
+
+    auto plane_cloud = pcd->SelectByIndex(plane_points);
+    plane_cloud->PaintUniformColor({1, 0, 0});
+
+    auto rest_cloud = pcd->SelectByIndex(plane_points, true);
+    rest_cloud->PaintUniformColor({0, 0, 1});
+
+    o3d::utility::LogInfo("Visualizing results of the plane segmentation");
+    DrawGeometries({plane_cloud, rest_cloud});
+
+    // Benchmark the segmentation algorithm
+    {
+        o3d::utility::ScopeTimer t{"SegmentPlane"};
+        auto [plane_model, plane_points] =
+            pcd->SegmentPlane(distance_threshold, ransac_n, num_iterations);
+    }
 
     return 0;
 }
