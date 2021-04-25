@@ -3,7 +3,8 @@
 - [Open3D C++ and Python interaction](#open3d-c-and-python-interaction)
   - [Requisites](#requisites)
   - [Workflow](#workflow)
-  - [Example: PlaneSegmentation](#example-planesegmentation)
+  - [Example: Plane Segmentation](#example-plane-segmentation)
+  - [Example: Interactive Plane Segmentation](#example-interactive-plane-segmentation)
   - [Code Comparision](#code-comparision)
     - [Custom Visualization](#custom-visualization)
       - [Python](#python)
@@ -59,13 +60,19 @@ to be an example and a starting point as well, but the roadmap looks like:
 4. Move your C++ code snippet to the project where you want to deploy the
    algorithm.
 
-## Example: PlaneSegmentation
+## Example: Plane Segmentation
 
 This is a trivial example, but given the fact that now Open3D supports this out
 of the box it's a good starting point.
 
 Now you are ready to open the [jupyter notebook](./plane_segmentation.ipynb)
 and start playing, have fun!
+
+## Example: Interactive Plane Segmentation
+
+If you think you had fun with the previous example go check out the
+[Interactive Plane Segmentation
+Example](./interactive_plane_segmentation.ipynb)
 
 ## Code Comparision
 
